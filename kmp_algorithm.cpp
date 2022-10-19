@@ -34,3 +34,46 @@ int CalcLCT(char pattern[])
   }
   return nextv1[strlen(pattern)];
 }
+
+// Better the algrothim of nextv1 array to return a whole new array called nextVal
+void CalcNextVal(char pattern[], int nxtVal[])
+{
+    int i = 0, j = -1;
+    nxtVal[i] = j;
+    int length = strlen(pattern);
+
+    while(i < length){
+
+        if(j == -1 || pattern[i] == pattern[j]){
+            i++; j++;
+
+            if(pattern[i] == pattern[j])
+                nxtVal[i] = nxtVal[j];
+            else
+                nxtVal[i] = j;
+            
+        }else{
+            j = nxtVal[j];
+        }
+        
+    }
+
+}
+
+// The true usage of the kmp algrothim
+int Find_Pos_With_KMP(char ori[], char pattern[], int nextval[])
+{
+    int k = 0, j = 0;
+    int lo = strlen(ori), lp = strlen(pattern);
+    while(k < lo && j < lp){
+        if(ori[k] == pattern[j] || j == -1){
+            k++; j++;
+        }else{
+            j = nextval[j];
+        }
+    }
+    if(j > lp){
+        return k - lp;
+    }else 
+        return -1;
+}
